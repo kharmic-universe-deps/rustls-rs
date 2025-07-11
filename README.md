@@ -43,8 +43,12 @@ list of protocol features](https://docs.rs/rustls/latest/rustls/manual/_04_featu
 
 ### Platform support
 
-While Rustls itself is platform independent, by default it uses [`aws-lc-rs`] for implementing
-the cryptography in TLS.  See [the aws-lc-rs FAQ][aws-lc-rs-platforms-faq] for more details of the
+While Rustls itself is platform independent, it requires the use of cryptography primitives
+for implementing the cryptography algorithms used in TLS. In Rustls, a
+[`crypto::CryptoProvider`] represents a collection of crypto primitive implementations.
+
+The Rustls team recommends using the [`aws-lc-rs`] crate, which for its complete feature set
+and performance. See [the aws-lc-rs FAQ][aws-lc-rs-platforms-faq] for more details of the
 platform/architecture support constraints in aws-lc-rs.
 
 [`ring`] is also available via the `ring` crate feature: see
@@ -70,7 +74,7 @@ Rustls requires Rust 1.79 or later.
 
 Since Rustls 0.22 it has been possible to choose the provider of the cryptographic primitives
 that Rustls uses. This may be appealing if you have specific platform, compliance or feature
-requirements that aren't met by the default provider, [`aws-lc-rs`].
+requirements.
 
 Users that wish to customize the provider in use can do so when constructing `ClientConfig`
 and `ServerConfig` instances using the `with_crypto_provider` method on the respective config
@@ -80,8 +84,8 @@ builder types. See the [`crypto::CryptoProvider`] documentation for more details
 
 Rustls ships with two built-in providers controlled by associated crate features:
 
-* [`aws-lc-rs`] - enabled by default, available with the `aws-lc-rs` crate feature enabled.
-* [`ring`] - available with the `ring` crate feature enabled.
+* [`aws-lc-rs`] - available with the `aws-lc-rs` crate feature enabled
+* [`ring`] - available with the `ring` crate feature enabled
 
 See the documentation for [`crypto::CryptoProvider`] for details on how providers are
 selected.
